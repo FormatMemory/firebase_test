@@ -30,7 +30,7 @@
         </div>
         <script src="https://www.gstatic.com/firebasejs/5.8.6/firebase.js"></script>
         <script src="app.js"></script>
-
+        <script>
         //get elements
         var uploader = document.getElementById('uploader');
         var fileButton = document.getElementById('fileButton');
@@ -55,7 +55,7 @@
                 }, 
 
                 function error(err){
-                    console.log(err);
+                    console.log(err.message());
                 },
 
                 function complete(){
