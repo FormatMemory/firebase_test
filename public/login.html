@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Login Page</title>
+    <style media="screen">
+      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
+      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
+      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
+      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
+      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
+      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
+      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
+      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
+      @media (max-width: 600px) {
+        body, #message { margin-top: 0; background: white; box-shadow: none; }
+        body { border-top: 16px solid #ffa100; }
+      }
+    </style>
+    <center>
+        <div>
+            <input id="txtEmail" type="email" placeholder="Email">
+            <input id="txtPassword" type="password" placeholder="Password">
+            <button id="btnLogin" class="btn btn-action">
+                Login
+            </button>
+            <button id="btnSignUp" class="btn btn-secondary">
+                Sign Up
+            </button>
+
+            <button id="btnLogout" class="btn btn-action hide">
+                Log out
+            </button>
+        </div>
+    </center>
+    <script src="https://www.gstatic.com/firebasejs/5.8.6/firebase.js"></script>
+    <script src="app.js"></script>
+    <script>
+        //Login
+        const txtEmail = document.getElementById('txtEmail');
+        const txtPassword = document.getElementById('txtPassword');
+        const btnLogin = document.getElementById('btnLogin');
+        const btnSignUp = document.getElementById('btnSignUp');
+        const btnLogout = document.getElementById('btnLogout');
+        btnLogout.style.visibility = "hidden";
+
+        //Add login event
+        btnLogin.addEventListener('click', e=>{
+            const email = txtEmail.value;
+            const password = txtPassword.value;
+            const auth = firebase.auth();
+            console.log(email,password)
+            //Sign in
+            const promise = auth.signInWithEmailAndPassword(email, password);
+            promise.catch(e => window.alert(e.message));
+            
+        });
+        //Sign up
+        btnSignUp.addEventListener('click', e=>{
+            const email = txtEmail.value;
+            const password = txtPassword.value;
+            const auth = firebase.auth();
+
+            //Create User
+            const promise = auth.createUserWithEmailAndPassword(email, password);
+            promise.catch(e => window.alert(e.message));
+        });
+
+        //add a realtime listener
+        firebase.auth().onAuthStateChanged(firebaseUser => { 
+            if(firebaseUser){
+                console.log(firebaseUser);
+                btnLogout.style.visibility = "visible";
+                window.alert("Login");
+            }else{
+                console.log("not logged in")
+                btnLogout.style.visibility = "hidden";
+            }
+        });
+
+        //Logout
+        btnLogout.addEventListener('click', e=>{
+            firebase.auth().signOut();
+            window.alert("Sign Out");
+        });
+
+
+    </script>
+  </head>
+  <body>
+    <script>
+    </script>
+  </body>
+</html>
