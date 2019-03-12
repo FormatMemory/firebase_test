@@ -1,0 +1,83 @@
+<html>
+    <head>
+        <meta charset = "utf-8">
+        <title>Test</title>
+        <style media = "screen">
+            body{
+                display: flex;
+                min-height:10vh;
+                width: 100%;
+                padding: 0;
+                margin: 0;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+            }
+            #uploader{
+                -webkit-appearance: none;
+                appearance: none;
+                width:50%
+                margin-bottom: 10px
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            <input type="file" value = "upload" id="fileButton"/>
+        </div>
+        <div>
+            <progress value="0" max="100" id="uploader">0%</progress>
+        </div>
+        <script src="https://www.gstatic.com/firebasejs/5.8.6/firebase.js"></script>
+        <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyCRS8EyoVNpiVhRvrRkd7_u92lyxJ5NoBw",
+            authDomain: "dealsite-628d7w.firebaseapp.com",
+            databaseURL: "https://dealsite-628d7w.firebaseio.com",
+            projectId: "dealsite-628d7w",
+            storageBucket: "dealsite-628d7w.appspot.com",
+            messagingSenderId: "256460160974"
+        };
+        firebase.initializeApp(config);
+
+        //get elements
+        var uploader = document.getElementById('uploader');
+        var fileButton = document.getElementById('fileButton');
+        var uoloadButton = document.getElementById('uploadButton');
+
+        //Listen for file selection
+        fileButton.addEventListener('change', function(e){
+            //Get file
+            var file = e.target.files[0];
+
+            //Create a storage ref
+            var storageRef = firebase.storage().ref('upload_file/'+file.name);
+
+            //Upload file
+            var task = storageRef.put(file);
+
+            //Update progress bar
+            task.on('state_changed', 
+                function progress(snapshot){
+                    var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    uploader.value = percentage;
+                }, 
+
+                function error(err){
+                    pprint(err)
+                },
+
+                function complete(){
+                    
+                }
+            )
+
+
+        });
+        </script>
+        <script>
+            
+        </script>
+    </body>
+</html>
