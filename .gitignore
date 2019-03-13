@@ -13,7 +13,7 @@ yarn.lock
 *.iml
 *.tgz
 scripts/*.json
-
+config.js
 lib/
 # Tmp
 /tmp
