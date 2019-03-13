@@ -71,10 +71,12 @@
             if(firebaseUser){
                 console.log(firebaseUser);
                 btnLogout.style.visibility = "visible";
+                btnLogin.style.visibility = "hidden";
                 window.alert("Login");
             }else{
                 console.log("not logged in")
                 btnLogout.style.visibility = "hidden";
+                btnLogin.style.visibility = "visible";
             }
         });
 
